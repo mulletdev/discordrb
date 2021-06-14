@@ -379,7 +379,20 @@ module Discordrb
       allowed_mentions = { parse: [] } if allowed_mentions == false
       message_reference = { message_id: message_reference.id } if message_reference
 
-      response = API::Channel.create_message(token, channel, content, tts, embed&.to_hash, nil, attachments, allowed_mentions&.to_hash, message_reference)
+      components = [ {
+            "type": 1,
+            "components": [
+                {
+                    "type": 2,
+                    "label": "Click me!",
+                    "style": 1,
+                    "custom_id": "click_one"
+                }
+            ]
+
+        }
+    ]
+      response = API::Channel.create_message(token, channel, content, tts, embed&.to_hash, nil, attachments, allowed_mentions&.to_hash, message_reference, components)
       Message.new(JSON.parse(response), self)
     end
 
